@@ -7,8 +7,12 @@
 	</head>
 	<body>
 		<script>
-			createBoard();
-			var game = new Game();
+			try {
+				createBoard();
+				var game = new Game();
+			} catch (e) {
+				console.log(e);
+			}
 		</script>
 	</body>
 </html>

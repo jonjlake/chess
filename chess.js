@@ -32,6 +32,7 @@ function Location(col, row) {
   this.col=col;
   this.row=row;
   this.colString="0abcdefgh";
+
   this.colChar=function(colNum){
     return this.colString[colNum];
   }
@@ -39,14 +40,19 @@ function Location(col, row) {
   this.colNum=function(){
     return this.colString.indexOf(this.col);
   }
+
+  this.createFromSquareName = function(squareName) {
+    this.col = this.colString.indexOf(squareName[0])+1;
+    this.row = parseInt(squareName);
+  }
 }
 
 
 /**
  *
- * @param color
+ * @param color Piece color, "white" or "black"
  * @param location
- * @param symbol
+ * @param symbol Symbol of the piece to be displayed on the page
  */
 function Piece(color, location, symbol){
 
@@ -58,6 +64,19 @@ function Piece(color, location, symbol){
 
 	  var moves=location;
 	  return moves;
+  }
+
+  Piece.showPawnMoves = function(location, isFirstMove) {
+
+    var movesList = [];
+    if (isFirstMove) {
+      var newLocation = new Location(0,0);
+      newLocation.createFromSquareName(location);
+      newLocation.row += 1;
+      movesList.push(newLocation);
+    }
+
+    return movesList;
   }
 }
 
