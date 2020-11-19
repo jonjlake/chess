@@ -1,0 +1,23 @@
+.white-square, .black-square{
+  margin:0px;
+  border-width:1px;
+  border-style:solid;
+  padding:3px;
+  border-color:white;
+}
+
+.white-square {
+  background-color:silver;
+}
+
+.black-square{
+  background-color:gray;
+}
+
+td {
+  height:20px;
+  width:20px;
+  color:white;
+  text-align:center;
+}
+
