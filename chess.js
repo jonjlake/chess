@@ -1,11 +1,33 @@
+/**
+ * @file chess.js
+ * @author jlake
+ */
+
+
+/**
+ *
+ * @param object
+ */
 function O(object) {
   return typeof object == "object" ? object : document.getElementById(object);
 }
 
+
+/**
+ *
+ * @param object
+ * @param tag
+ */
 function T(object, tag){
   return O(object).getElementsByTagName(tag);
 }
 
+
+/**
+ *
+ * @param col
+ * @param row
+ */
 function Location(col, row) {
   this.col=col;
   this.row=row;
@@ -19,49 +41,90 @@ function Location(col, row) {
   }
 }
 
+
+/**
+ *
+ * @param color
+ * @param location
+ * @param symbol
+ */
 function Piece(color, location, symbol){
+
   this.color=color;
   this.location=location;
   this.symbol=symbol;
 
   Piece.showMoves=function(location){
 
-  var moves="Q";
-
-  return moves;
+	  var moves=location;
+	  return moves;
   }
 }
 
+
+/**
+ *
+ * @param color
+ * @param location
+ */
 function Queen(color, location)
 {
   Piece.call(
     this,color,location, "Q");
 }
 
+
+/**
+ *
+ * @param color
+ * @param location
+ */
 function King(color, location)
 {
   Piece.call(
     this,color,location, "K");
 }
 
+
+/**
+ *
+ * @param color
+ * @param location
+ */
 function Rook(color, location)
 {
   Piece.call(
     this,color,location, "R");
 }
 
+
+/**
+ * @param color
+ * @param location
+ */
 function Bishop(color, location)
 {
   Piece.call(
     this,color,location, "B");
 }
 
+
+/**
+ * @param color
+ * @param location
+ */
 function Knight(color, location)
 {
   Piece.call(
     this,color,location,"N");
 }
 
+
+/**
+ *
+ * @param color
+ * @param location
+ */
 function Pawn(color, location)
 {
   this.firstMove=true;
@@ -80,10 +143,16 @@ function Pawn(color, location)
 }
 
 
+/**
+ *
+ */
 function Board(){
 
   this.pieces = [];
 
+  /**
+   *
+   */
   this.initPieces = function(){
 
     var cols= "abcdefgh";
@@ -115,11 +184,23 @@ function Board(){
     this.addQueen("black","d",8);
   }
 
+  /**
+   *
+   * @param color
+   * @param col
+   * @param row
+   */
   this.addPawn=function(color, col, row){
 
      this.pieces.push(new Pawn(color, new Location(col, row)));
   }
 
+  /**
+   *
+   * @param color
+   * @param col
+   * @param row
+   */
   this.addKnight=function(color, col, row){
 
       this.pieces.push(new Knight(color, new Location(col,row)));
@@ -150,6 +231,9 @@ function Board(){
   }
 
 
+  /**
+   *
+   */
   this.showPieces=function(){
 
     var table=O("board-table");
@@ -167,6 +251,10 @@ function Board(){
     }
   }
 
+  /**
+   *
+   * @param square
+   */
   this.getPiece =function(square){
 
     var piece=null;
@@ -182,6 +270,9 @@ function Board(){
     return piece;
   }
 
+  /**
+   * @param square
+   */
   this.getMoves=function(square){
 
     var piece= 
@@ -193,9 +284,12 @@ function Board(){
 
     return piece.getMoves();
   }
-
 }
 
+
+/**
+ *
+ */
 function Game() {
 
   this.isWhitesTurn=true;
@@ -207,12 +301,20 @@ function Game() {
   //this.timer=new Timer();
 }
 
+
+/**
+ *
+ * @param type
+ */
 function mkEl(type){
 
   return document.createElement(type);
 }
 
 
+/**
+ *
+ */
 function createBoard(){
 
   var table=mkEl("table");
@@ -225,7 +327,7 @@ function createBoard(){
     for (var c=1; c<=8; c++) {
 
       var cell=mkEl("td");
-      cell.id=c+r;
+      cell.id=c.toString()+r.toString();
       cell.className=squareIsWhite? "white-square":"black-square";
       squareIsWhite=!squareIsWhite;
       cell.onclick=selectPiece;
@@ -240,6 +342,9 @@ function createBoard(){
 }
 
 
+/**
+ *
+ */
 function selectPiece(){
 
   if(this.innerHTML !== ""){
@@ -253,13 +358,14 @@ function selectPiece(){
   for(var i=0;i<cells.length;i++){
 
     if (cells[i] !== this){
+
       cells[i].style.borderColor= "white";
       cells[i].style.fontSize= "100%";
     }
   }
 
-  var movesList=Piece.showMoves(0);
+  var movesList=Piece.showMoves(this.id);
 
-  alert(movesList);
+  console.log(movesList);
 }
 
