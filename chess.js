@@ -3,6 +3,18 @@
  * @author jlake
  */
 
+/**
+ * TODO:
+ * 1. Generate moves for more piece types
+ * 2. Disallow moves that are blocked by another piece
+ * 3. Disallow selection/moves if it's not the color's turn
+ * 4. Generate moves in reverse for black
+ * 5. Actually move the pieces
+ * 6. Handle piece capture
+ * 7. Handle check
+ * 8. Handle checkmate
+ * 9. Change turn
+ */
 
 /**
  *
@@ -92,6 +104,23 @@ function Piece(color, location, symbol){
 
     return movesList;
   }
+  
+  Piece.getRookMoves = function(location, isFirstMove) {
+    var movesList = [];
+    var newBoardLocation = null;
+    for (var i = 1; i <=8; i++) {
+      newBoardLocation = new BoardLocation(0,0);
+      newBoardLocation.createFromSquareName(location);
+      newBoardLocation.row = i;
+      console.log("i: " + i + " location[1]: " + location[1]);
+      if (i !== parseInt(location[1])) {
+        console.log("Adding move " + JSON.stringify(newBoardLocation));
+        movesList.push(newBoardLocation);
+      }
+    }      
+    // Do columns next
+    return movesList; 
+  }
 }
 
 
@@ -131,6 +160,7 @@ function Rook(color, location)
   Piece.call(
 //    this,color,location, "R");
     this,color,location, "&#9814");
+  this.getMoves = Piece.getRookMoves;
 }
 
 
@@ -173,8 +203,7 @@ function Pawn(color, location)
   this.move = function(newBoardLocation) {
   }
 
-  this.showMoves = function(){
-  }
+  this.getMoves = Piece.getPawnMoves;
 
   this.generatePath=function(destination) {
   }
@@ -423,7 +452,9 @@ function selectPiece(){
   if (this.innerHTML !== "") {
     var piece = game.board.getPiece(this.id);
 //    console.log("Got piece " + JSON.stringify(piece));
-    var movesList=Piece.getPawnMoves(this.id, true);
+    //var movesList=Piece.getPawnMoves(this.id, true);
+    var movesList=piece.getMoves(this.id, true);
+    console.log("Got movesList " + JSON.stringify(movesList)); 
     showMoves(movesList);
   }
 
