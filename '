@@ -377,34 +377,28 @@ function createBoard(){
 
 function showMoves(movesList) {
   var cells = T("board-table", "td");
-//  console.log("showMoves");
-//  console.log(JSON.stringify(cells));
-//  cells.forEach(cell => {console.log("hi");});
+  alert("showMoves");
+  alert(JSON.stringify(cells));
+//  cells.forEach(cell => {alert("hi");});
 /*  cells.forEach(cell => {
-    console.log("firstloop");
+    alert("firstloop");
     movesList.forEach(move => {
       var moveSquareName = Location.colLetter(move.col) + move.row.toString();
       if (moveSquareName === cell.id) {
      	cell.style.innerHTML = "O"; 
       }
     });
-  });*/try{
-//  console.log(cells.length);
+  });*/
   for (var i = 0; i < cells.length; i++) {
-//    console.log("cell id: " + cells[i].id);
-//    console.log(movesList.length);
-    cells[i].style.borderColor = "white";
+    alert("cell id: " + cells[i].id);
     for (var j = 0; j < movesList.length; j++) {
- //     console.log("Move col: " + movesList[j].col + " move row: " + movesList[j].row.toString());
-      var moveSquareName = tempColLetter(movesList[j].col) + movesList[j].row.toString(); 
-//      console.log("MoveSquare: " + moveSquareName);
+      var moveSquareName = Location.colLetter(movesList[j]).col + movesList[j].row.toString(); 
       if (moveSquareName.valueOf() === cells[i].id.valueOf()) {
-//        console.log("Matched cell " + cells[i].id + " with move " + movesList[j]);
-//        cells[i].innerHTML = "O";
-        cells[i].style.borderColor = "red";
+        alert("Matched cell " + cells[i].id + " with move " + movesList[j]);
+        cells[i].innerHTML = "O";
       }
     } 
-  } }catch(e){alert(e);}
+  }
 }
 
 /**
@@ -432,6 +426,6 @@ function selectPiece(){
   var movesList=Piece.getPawnMoves(this.id, true);
   showMoves(movesList);
 
-//  console.log(JSON.stringify(movesList));
+  console.log(JSON.stringify(movesList));
 }
 
