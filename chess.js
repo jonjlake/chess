@@ -38,8 +38,6 @@ function BoardLocation(col, row) {
   BoardLocation.prototype.colString="0abcdefgh";
 
   BoardLocation.colLetter = function(colNum) {
-//    return this.colString[colNum];
-//    return colNum; 
     return this.colString[colNum];
   }
 
@@ -48,11 +46,14 @@ function BoardLocation(col, row) {
   }
 
   this.createFromSquareName = function(squareName) {
-//    console.log("Creating from square name " + squareName);
-//    console.log("squareName[0]: " + squareName[0]);
-//    console.log("colString: " + this.colString);
     this.col = this.colString.indexOf(squareName[0]);
     this.row = parseInt(squareName[1]);
+  }
+
+  this.getSquareName = function() {
+    var squareName = "0abcdefgh"[this.col];
+    squareName += this.row; 
+    return squareName; 
   }
 }
 
@@ -102,7 +103,8 @@ function Piece(color, location, symbol){
 function Queen(color, location)
 {
   Piece.call(
-    this,color,location, "Q");
+//    this,color,location, "Q");
+    this,color,location, "&#9813;");
 }
 
 
@@ -114,7 +116,8 @@ function Queen(color, location)
 function King(color, location)
 {
   Piece.call(
-    this,color,location, "K");
+//    this,color,location, "K");
+    this,color,location, "&#9812;");
 }
 
 
@@ -126,7 +129,8 @@ function King(color, location)
 function Rook(color, location)
 {
   Piece.call(
-    this,color,location, "R");
+//    this,color,location, "R");
+    this,color,location, "&#9814");
 }
 
 
@@ -137,7 +141,8 @@ function Rook(color, location)
 function Bishop(color, location)
 {
   Piece.call(
-    this,color,location, "B");
+//    this,color,location, "B");
+    this,color,location, "&#9815");
 }
 
 
@@ -148,7 +153,8 @@ function Bishop(color, location)
 function Knight(color, location)
 {
   Piece.call(
-    this,color,location,"N");
+//    this,color,location,"N");
+    this,color,location,"&#9816");
 }
 
 
@@ -162,8 +168,8 @@ function Pawn(color, location)
   this.firstMove=true;
 
   Piece.call(
-    this,color,location, "P");
-
+//    this,color,location, "P");
+    this,color,location, "&#9817");
   this.move = function(newBoardLocation) {
   }
 
@@ -292,10 +298,10 @@ function Board(){
     var piece=null;
 
     for(var i=0;i<this.pieces.length;i++){
-      var l=pieces[i].location;
+      var l=this.pieces[i].location;
       if (l.col===square[0] &&
           l.row===parseInt(square[1])){
-        return pieces[i];
+        return this.pieces[i];
       }
     }
 
@@ -377,34 +383,19 @@ function createBoard(){
 
 function showMoves(movesList) {
   var cells = T("board-table", "td");
-//  console.log("showMoves");
-//  console.log(JSON.stringify(cells));
-//  cells.forEach(cell => {console.log("hi");});
-/*  cells.forEach(cell => {
-    console.log("firstloop");
-    movesList.forEach(move => {
-      var moveSquareName = Location.colLetter(move.col) + move.row.toString();
-      if (moveSquareName === cell.id) {
-     	cell.style.innerHTML = "O"; 
-      }
-    });
-  });*/try{
-//  console.log(cells.length);
-  for (var i = 0; i < cells.length; i++) {
-//    console.log("cell id: " + cells[i].id);
-//    console.log(movesList.length);
-    cells[i].style.borderColor = "white";
-    for (var j = 0; j < movesList.length; j++) {
- //     console.log("Move col: " + movesList[j].col + " move row: " + movesList[j].row.toString());
-      var moveSquareName = tempColLetter(movesList[j].col) + movesList[j].row.toString(); 
-//      console.log("MoveSquare: " + moveSquareName);
-      if (moveSquareName.valueOf() === cells[i].id.valueOf()) {
-//        console.log("Matched cell " + cells[i].id + " with move " + movesList[j]);
-//        cells[i].innerHTML = "O";
-        cells[i].style.borderColor = "red";
-      }
+  try{
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].style.borderColor = "white";
+      for (var j = 0; j < movesList.length; j++) {
+        var moveSquareName = tempColLetter(movesList[j].col) + movesList[j].row.toString(); 
+        if (moveSquareName.valueOf() === cells[i].id.valueOf()) {
+          cells[i].style.borderColor = "red";
+        }
+      } 
     } 
-  } }catch(e){alert(e);}
+  } catch(e){
+    console.error(e);
+  }
 }
 
 /**
@@ -414,7 +405,7 @@ function selectPiece(){
 
   if(this.innerHTML !== ""){
 
-    //this.style.borderColor= "blue";
+//    this.style.borderColor= "blue";
     this.style.fontSize= "150%";
   }
 
@@ -429,8 +420,12 @@ function selectPiece(){
     }
   }
 
-  var movesList=Piece.getPawnMoves(this.id, true);
-  showMoves(movesList);
+  if (this.innerHTML !== "") {
+    var piece = game.board.getPiece(this.id);
+//    console.log("Got piece " + JSON.stringify(piece));
+    var movesList=Piece.getPawnMoves(this.id, true);
+    showMoves(movesList);
+  }
 
 //  console.log(JSON.stringify(movesList));
 }
