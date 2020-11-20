@@ -119,6 +119,16 @@ function Piece(color, location, symbol){
       }
     }      
     // Do columns next
+    for (var i = 1; i <=8; i++) {
+      newBoardLocation = new BoardLocation(0,0);
+      newBoardLocation.createFromSquareName(location);
+      newBoardLocation.col = i;
+      console.log("Looking at");
+      if (i !== "0abcdefgh".indexOf(location[0])) {
+        movesList.push(newBoardLocation);
+      }
+    }
+    
     return movesList; 
   }
 }
